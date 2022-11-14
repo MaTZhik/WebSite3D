@@ -1,0 +1,55 @@
+//- Image
+	@param {string} name
+mixin img( name, options )
+	-
+		var size = getImageSize( name );
+		if( options && options.retina ) { size[0] = ~~(size[0]/2); size[1] = ~~(size[1]/2); }
+	img( src= procImg( name ), alt='', width= size[0], height= size[1] )&attributes( attributes )
+
+
+//- Jpg image
+	@param {string} name
+mixin jpg( name )
+	- var size = getImageSize( name );
+	img( src= setImagePath( name +'.jpg' ), alt='', width= size[0], height= size[1] )&attributes( attributes )
+
+
+//- Png image
+	@param {string} name
+mixin png( name )
+	- var size = getImageSize( name );
+	img( src= setImagePath( name +'.png' ), alt='', width= size[0], height= size[1] )&attributes( attributes )
+
+
+//- Loop without indexing mixin
+	@param {number} iterations - number of iterations
+mixin loop( iterations )
+	- for ( var i = 0; i < iterations; i++ )
+		block
+
+
+//- Logo
+mixin logo
+	a.brand( href='index.html' )&attributes( attributes )
+		+img( logo.inverse, { retina: true } )
+
+
+//- Copyright
+mixin rights
+	p.rights&attributes( attributes )
+		span &copy;&nbsp; 
+		span.copyright-year
+		span &nbsp;
+		span= logo.name
+		span . All Rights Reserved.
+
+
+mixin button-jerry( obj )
+	a.button.button-jerry( href= obj.link ? obj.link : '#' class= obj.class ? obj.class : 'button-primary' )= obj.text
+		+loop('4')
+			span.button-jerry-line
+
+mixin button-jerry-2( obj )
+	button.button.button-jerry( class= obj.class ? obj.class : 'button-primary' type='submit' )= obj.text
+		+loop('4')
+			span.button-jerry-line

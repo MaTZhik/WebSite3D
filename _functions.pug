@@ -1,0 +1,79 @@
+-
+	/**
+	* @desc Get the resolution of the image from its name
+	* @param {string} imgName - image name
+	* @return {Array} - image width and height
+	*/
+	function getImageSize( imgName ) {
+		var match = imgName.match( /\d+x\d+/i );
+		if ( match !== null && match.length !== 0 ) return match[0].split( 'x' );
+		else return [];
+	}
+
+	/**
+	* @desc Sets the image extension if it is missing and adds 'images/' if the link is not external
+	* @param {string} imgName - image name
+	* @return {string}
+	*/
+	function procImg( imgName ) {
+		var
+			extMatch = imgName.match( /(.jpg|.png|.gif)$/i ),
+			httpTest = /:\/\//.test( imgName );
+
+		if ( !httpTest && ( extMatch === null || extMatch.length === 0 ) ) imgName += '.jpg';
+		if ( !httpTest ) imgName = 'images/'+ imgName;
+
+		return imgName;
+	}
+
+	/**
+	* @desc Sets the image extension if it is missing
+	* @param {string} imgName - image name
+	* @return {string} - image name with extension
+	*/
+	function setImageExtension( imgName ) {
+		try {
+			if( imgName.match( '(.jpg|.png|.gif)$')[0] ) return imgName;
+		} catch ( error ) {
+			if( debug ) console.warn( 'Image extension is not specified in the image name "'+ imgName +'"' );
+			return /:\/\//g.test( imgName ) ? imgName : imgName +'.jpg';
+		}
+	}
+
+	/**
+	* @desc Adds 'images/' if the link is not external
+	* @param {string} imgName - image name
+	* @return {string} - image name
+	*/
+	function setImagePath( imgName ) {
+		return /:\/\//g.test( imgName ) ? imgName : 'images/' + imgName;
+	}
+
+	/**
+	* @desc Get menu branch by category name
+	* @param {string} category - category name
+	* @return {object} - menu branch
+	*/
+	function getMenuCategory( category ) {
+		for ( var i = 0; i < menu.length; i++ ) {
+			if ( menu[i].category === category ) return menu[i];
+		}
+	}
+
+	/**
+	* @desc Generates link from string
+	* @param {string} string
+	*/
+	function genLink( string ) {
+		return string.trim().replace( /\s/g, '-' ).replace( /[\(\)]/g, '' ).toLowerCase() +'.html';
+	}
+
+	/**
+	* @desc Returns random string
+	* @param {number} length - string length
+	*/
+	function randomStr( length ) {
+		var str = '';
+		for ( var n = 0; n < length; n++ ) str += String.fromCharCode( 97 + Math.random() * 25 );
+		return str;
+	}
